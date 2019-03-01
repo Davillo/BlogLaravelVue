@@ -15,6 +15,8 @@
             defineCor: function(){
                 return "panel "+(this.cor || "panel-default");
             }
+
+            
         }
     }
 </script>
