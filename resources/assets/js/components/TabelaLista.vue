@@ -40,7 +40,6 @@
                         <a v-if="editar" v-bind:href="editar">Editar |</a>
                     </span>
                   
-
                 </td>
              </tr>
          </tbody>
@@ -103,6 +102,20 @@
                     return false;
                });
              
+            }
+        },
+        computed:{
+            lista: function(){
+                return this.itens.filter(res => {
+                    
+                    for(let k = 0 ; k < res.length; k ++){
+
+                        if((res[k] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
+                         return true;
+                        }
+                    }
+                    return false;
+                });
             }
         }
     }

@@ -45308,7 +45308,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -45359,7 +45360,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
     props: ['titulos', 'itens', 'ordem', 'ordemcol', 'criar', 'detalhe', 'editar', 'deletar', 'token'],
     data: function data() {
         return {
@@ -45422,7 +45423,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     }
-});
+}, 'computed', {
+    lista: function lista() {
+        var _this2 = this;
+
+        return this.itens.filter(function (res) {
+
+            for (var k = 0; k < res.length; k++) {
+
+                if ((res[k] + "").toLowerCase().indexOf(_this2.buscar.toLowerCase()) >= 0) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+}));
 
 /***/ }),
 /* 61 */
