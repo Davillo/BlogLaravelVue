@@ -92,16 +92,6 @@
                     });
                 }
 
-
-                return this.itens.filter(res => {
-                    for(let i=0 ; i < res.length; i++){
-                    if((res[i] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >=0 ){
-                        return true;
-                    }
-                }
-                    return false;
-               });
-             
             }
         },
         computed:{
