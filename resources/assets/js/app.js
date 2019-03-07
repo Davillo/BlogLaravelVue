@@ -9,13 +9,11 @@ Vue.use(Vuex);
 //VUEX
 const store = new Vuex.Store({
     state:{
-        itens:{
-            teste: 'opa funcionou'
-        }
+        item:{}
     },
     mutations:{
-        setItens(state,obj){
-            state.itens = obj;
+        setItem(state,obj){
+            state.item = obj;
         }
     }
 });
@@ -33,5 +31,8 @@ Vue.component('formulario', require('./components/Formulario.vue'));
 
 const app = new Vue({
     el: '#app',
-    store
+    store,
+    mounted: function (){
+       document.getElementById('app').style.display = "block";
+    }
 });

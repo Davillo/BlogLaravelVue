@@ -2,7 +2,7 @@
 <div>
   
      <div class="form-inline">
-         <p>{{this.$store.state.itens}}</p>
+       
         <a v-if="criar && !modal" v-bind:href="criar">Criar</a>
 
         <modallink v-if="criar && modal" tipo="button" nome="adicionar" titulo="Criar" css=""></modallink>
@@ -28,21 +28,27 @@
               <input type="hidden" name="_method" value="DELETE">
               <input type="hidden" name="_token" v-bind:value="token">
 
-              <a v-if="detalhe" v-bind:href="detalhe">Detalhe |</a>
+              <a v-if="detalhe && !modal" v-bind:href="detalhe">Detalhe |</a>
+              <modallink v-if="detalhe && modal" v-bind:item="item" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
+              
+              
               <a v-if="editar && !modal" v-bind:href="editar"> Editar |</a>
-              <modallink v-if="editar && modal" tipo="link" nome="editar" titulo=" Editar |" css=""></modallink>
+              <modallink v-if="editar && modal" v-bind:item="item" tipo="link" nome="editar" titulo=" Editar |" css=""></modallink>
 
               <a href="#" v-on:click="executarForm(index)"> Deletar</a>
 
             </form>
             <span v-if="!token">
               <a v-if="detalhe" v-bind:href="detalhe">Detalhe |</a>
+              <modallink v-if="detalhe && modal" v-bind:item="item" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
+
               <a v-if="editar && !modal" v-bind:href="editar"> Editar |</a>
               <modallink v-if="editar && modal" tipo="link" nome="editar" titulo=" Editar |" css=""></modallink>
               <a v-if="deletar" v-bind:href="deletar"> Deletar</a>
             </span>
             <span v-if="token && !deletar">
               <a v-if="detalhe" v-bind:href="detalhe">Detalhe |</a>
+              <modallink v-if="detalhe && modal" v-bind:item="item" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
               <a v-if="editar && !modal" v-bind:href="editar"> Editar</a>
               <modallink v-if="editar && modal" tipo="link" nome="editar" titulo=" Editar" css=""></modallink>
             </span>
@@ -83,8 +89,6 @@
         },
        computed:{
         lista:function(){
-        
-            this.$store.commit('setItens',{opa: 'ok'});
           let ordem = this.ordemAux;
           let ordemCol = this.ordemAuxCol;
           ordem = ordem.toLowerCase();
@@ -106,22 +110,33 @@
 
           if(this.buscar){
             return this.itens.filter(res => {
-              for(let k = 0;k < res.length; k++){
-                if((res[k] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
-                  return true;
-                }
-              }
-              return false;
+            res = Object.values(res);
+              /*
+                for(let k = 0;k < res.length; k++){
+                  if((res[k] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
+                    return true;
+                  }
+                }*/
+                  if((res[0] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
+                    return true;
+                  }
 
+                  if((res[1] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
+                    return true;
+                  }
+
+                   if((res[2] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
+                    return true;
+                  }
+
+                return false;
             });
           }else{
             return this.itens;
           }
-
-
-          
+ 
         }
-      }
-
     }
+
+ }
 </script>
