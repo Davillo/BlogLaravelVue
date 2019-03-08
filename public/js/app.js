@@ -1412,7 +1412,6 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_Vuex__["a" /* default */].Store({
     }
 });
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('topo', __webpack_require__(43));
 Vue.component('painel', __webpack_require__(46));
 Vue.component('caixa', __webpack_require__(52));
@@ -46409,6 +46408,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['titulos', 'itens', 'ordem', 'ordemcol', 'criar', 'detalhe', 'editar', 'deletar', 'token', 'modal'],
@@ -46436,13 +46439,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     lista: function lista() {
       var _this = this;
 
+      var lista = this.itens.data;
       var ordem = this.ordemAux;
       var ordemCol = this.ordemAuxCol;
       ordem = ordem.toLowerCase();
       ordemCol = parseInt(ordemCol);
 
       if (ordem == "asc") {
-        this.itens.sort(function (a, b) {
+        lista.sort(function (a, b) {
           if (Object.values(a)[ordemCol] > Object.values(b)[ordemCol]) {
             return 1;
           }
@@ -46452,7 +46456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           return 0;
         });
       } else {
-        this.itens.sort(function (a, b) {
+        lista.sort(function (a, b) {
           if (Object.values(a)[ordemCol] < Object.values(b)[ordemCol]) {
             return 1;
           }
@@ -46464,7 +46468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       if (this.buscar) {
-        return this.itens.filter(function (res) {
+        return lista.filter(function (res) {
           res = Object.values(res);
           /*
             for(let k = 0;k < res.length; k++){
@@ -46487,7 +46491,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           return false;
         });
       } else {
-        return this.itens;
+        return lista;
       }
     }
   }
@@ -46561,7 +46565,7 @@ var render = function() {
                   staticStyle: { cursor: "pointer" },
                   on: {
                     click: function($event) {
-                      return _vm.ordenaColuna(index)
+                      return _vm.ordenarColuna(index)
                     }
                   }
                 },
@@ -46595,7 +46599,7 @@ var render = function() {
                           {
                             attrs: {
                               id: index,
-                              action: _vm.deletar,
+                              action: _vm.deletar + item.id,
                               method: "post"
                             }
                           },
@@ -46623,6 +46627,7 @@ var render = function() {
                               ? _c("modallink", {
                                   attrs: {
                                     item: item,
+                                    url: _vm.detalhe,
                                     tipo: "link",
                                     nome: "detalhe",
                                     titulo: " Detalhe |",
@@ -46641,6 +46646,7 @@ var render = function() {
                               ? _c("modallink", {
                                   attrs: {
                                     item: item,
+                                    url: _vm.editar,
                                     tipo: "link",
                                     nome: "editar",
                                     titulo: " Editar |",
@@ -46680,6 +46686,7 @@ var render = function() {
                               ? _c("modallink", {
                                   attrs: {
                                     item: item,
+                                    url: _vm.detalhe,
                                     tipo: "link",
                                     nome: "detalhe",
                                     titulo: " Detalhe |",
@@ -46698,6 +46705,8 @@ var render = function() {
                               ? _c("modallink", {
                                   attrs: {
                                     tipo: "link",
+                                    url: _vm.editar,
+                                    item: item,
                                     nome: "editar",
                                     titulo: " Editar |",
                                     css: ""
@@ -46746,7 +46755,9 @@ var render = function() {
                             _vm.editar && _vm.modal
                               ? _c("modallink", {
                                   attrs: {
+                                    url: _vm.editar,
                                     tipo: "link",
+                                    item: item,
                                     nome: "editar",
                                     titulo: " Editar",
                                     css: ""
@@ -47115,10 +47126,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['tipo', 'nome', 'titulo', 'css', 'item'],
+    props: ['tipo', 'nome', 'titulo', 'css', 'item', 'url'],
     methods: {
         preencheFormulario: function preencheFormulario() {
-            this.$store.commit('setItem', this.item);
+            var _this = this;
+
+            axios.get(this.url + this.item.id).then(function (res) {
+                _this.$store.commit('setItem', res.data);
+            }).catch(function (err) {
+                return console.log(err);
+            });
         }
     }
 });

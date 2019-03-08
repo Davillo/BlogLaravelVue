@@ -20,7 +20,7 @@ class ArtigosController extends Controller
             ['titulo' => "Lista de Artigos","url"=>'']
         ]);
         
-        $listaArtigos = json_encode(Artigo::select('id','titulo','descricao','data')->get());
+        $listaArtigos = (Artigo::select('id','titulo','descricao','data')->paginate(2));
         return view('admin.artigos.index',compact('listaMigalhas','listaArtigos'));
     }
 
@@ -32,9 +32,9 @@ class ArtigosController extends Controller
 
     
   
-    public function store(Request $request)
-    {
-    $data = $request->all();
+    public function store(Request $request){
+      $data = $request->all();
+      
       $validate = \Validator::make($data,[
         'titulo' => 'required',
         'descricao'=>'required',
@@ -51,8 +51,8 @@ class ArtigosController extends Controller
 
     
     public function show($id)
-    {
-       
+    { 
+      return Artigo::find($id);    
     }
 
  
@@ -64,12 +64,25 @@ class ArtigosController extends Controller
   
     public function update(Request $request, $id)
     {
+      $data = $request->all();
       
+      $validate = \Validator::make($data,[
+        'titulo' => 'required',
+        'descricao'=>'required',
+        'conteudo' => 'required',
+        'data' => 'required'
+      ]);
+    
+      if($validate->fails()){
+        return redirect()->back()->withErrors($validate)->withInput();
+      }
+      Artigo::find($id)->update($data);
+      return redirect()->back()->with('success','Salvo com sucesso.');
     }
 
     
-    public function destroy($id)
-    {
-       
+    public function destroy($id){
+      Artigo::find($id)->delete();
+      return redirect()->back()->with('success','Excluído com sucesso.');
     }
 }

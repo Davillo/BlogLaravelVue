@@ -2,22 +2,18 @@
 
 @section('content')
 <pagina tamanho="12">
-    @if(count($errors) > 0)
-        @foreach($errors->all() as $error)
-            <div class='alert alert-danger'>
-                {{$error}}
-            </div>
-        @endforeach
-    @endif 
+    @include('layouts.messages')
     <painel titulo="Lista de artigos">
         <migalhas v-bind:lista="{{$listaMigalhas}}"></migalhas>
         <tabela-lista 
         v-bind:titulos="['#','Título','Descrição','Data']"
-        v-bind:itens="{{$listaArtigos}}"
-        criar="#criar" detalhe="#detalhe" editar="#editar" deletar="#deletar" token="1234567"
+        v-bind:itens="{{json_encode($listaArtigos)}}"
+        criar="#criar" detalhe="/admin/artigos/" editar="/admin/artigos/" deletar="/admin/artigos/" token="{{ csrf_token() }}"
         ordem="desc" ordemcol="1" modal="sim"
         ></tabela-lista>
-
+        <div align="center">
+            {{$listaArtigos}}
+        </div>
     </painel>
 </pagina>
 
@@ -53,7 +49,7 @@
 </modal><!-- FIM MODAL ADICIONAR-->
 
 <modal nome="editar" titulo="Editar"><!-- INICIO MODAL EDITAR-->
-  <formulario id="formEditar" css="" action="#" method="put" enctype="" token="123123">
+  <formulario id="formEditar" css="" v-bind:action="'/admin/artigos/'+$store.state.item.id" method="put" enctype="" token="{{ csrf_token() }}">
 
     <div class="form-group">
         <label for="titulo"> Título </label>
@@ -63,6 +59,16 @@
     <div class="form-group">
         <label for="descricao"> Descrição </label>
         <input type="text" class="form-control" id="descricao" name="descricao" v-model="$store.state.item.descricao" placeholder="Descrição" />
+    </div>
+
+    <div class="form-group">
+        <label for="conteudo"> Conteúdo </label>
+        <textarea name="conteudo" id="conteudo" class="form-control" v-model="$store.state.item.conteudo"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="data"> Data </label>
+        <input type="datetime-local" class="form-control" v-model="$store.state.item.data" id="data" name="data" />
     </div>
   </formulario>
 
@@ -75,6 +81,7 @@
 
 <modal nome="detalhe" v-bind:titulo="$store.state.item.titulo"><!-- INICIO MODAL DETALHE-->
   <p>@{{$store.state.item.descricao}}</p>
+  <p>@{{$store.state.item.conteudo}}</p>
 </modal><!-- FIM MODAL DETALHE-->
 
 @endsection
