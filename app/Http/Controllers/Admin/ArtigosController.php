@@ -8,30 +8,22 @@ use App\Artigo;
 
 class ArtigosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+   
+    public function index(){
         $listaMigalhas = json_encode([
             ['titulo' => "Home","url" => route('home')],
             ['titulo' => "Lista de Artigos","url"=>'']
         ]);
         
-        $listaArtigos = (Artigo::select('id','titulo','descricao','data')->paginate(2));
+        $listaArtigos = (Artigo::select('id','titulo','descricao','data')->paginate(5));
         return view('admin.artigos.index',compact('listaMigalhas','listaArtigos'));
     }
 
-   
     public function create()
     {
        
     }
 
-    
-  
     public function store(Request $request){
       $data = $request->all();
       
