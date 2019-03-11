@@ -46409,24 +46409,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['titulos', 'itens', 'ordem', 'ordemcol', 'criar', 'detalhe', 'editar', 'deletar', 'token', 'modal'],
   data: function data() {
     return {
       buscar: '',
-      ordemAux: this.ordem || 'asc',
+      ordemAux: this.ordem || "asc",
       ordemAuxCol: this.ordemcol || 0
     };
   },
   methods: {
-    executarForm: function executarForm(index) {
+    executaForm: function executaForm(index) {
       document.getElementById(index).submit();
     },
-    ordenarColuna: function ordenarColuna(coluna) {
+    ordenaColuna: function ordenaColuna(coluna) {
       this.ordemAuxCol = coluna;
       if (this.ordemAux.toLowerCase() == "asc") {
         this.ordemAux = 'desc';
@@ -46470,32 +46467,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (this.buscar) {
         return lista.filter(function (res) {
           res = Object.values(res);
-          /*
-            for(let k = 0;k < res.length; k++){
-              if((res[k] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
-                return true;
-              }
-            }*/
-          if ((res[0] + "").toLowerCase().indexOf(_this.buscar.toLowerCase()) >= 0) {
-            return true;
+          for (var k = 0; k < res.length; k++) {
+            if ((res[k] + "").toLowerCase().indexOf(_this.buscar.toLowerCase()) >= 0) {
+              return true;
+            }
           }
-
-          if ((res[1] + "").toLowerCase().indexOf(_this.buscar.toLowerCase()) >= 0) {
-            return true;
-          }
-
-          if ((res[2] + "").toLowerCase().indexOf(_this.buscar.toLowerCase()) >= 0) {
-            return true;
-          }
-
           return false;
         });
-      } else {
-        return lista;
       }
+
+      return lista;
     }
   }
-
 });
 
 /***/ }),
@@ -46518,7 +46501,7 @@ var render = function() {
         _vm.criar && _vm.modal
           ? _c("modallink", {
               attrs: {
-                tipo: "button",
+                tipo: "link",
                 nome: "adicionar",
                 titulo: "Criar",
                 css: ""
@@ -46565,7 +46548,7 @@ var render = function() {
                   staticStyle: { cursor: "pointer" },
                   on: {
                     click: function($event) {
-                      return _vm.ordenarColuna(index)
+                      return _vm.ordenaColuna(index)
                     }
                   }
                 },
@@ -46661,7 +46644,7 @@ var render = function() {
                                 attrs: { href: "#" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.executarForm(index)
+                                    return _vm.executaForm(index)
                                   }
                                 }
                               },
@@ -46676,7 +46659,7 @@ var render = function() {
                       ? _c(
                           "span",
                           [
-                            _vm.detalhe
+                            _vm.detalhe && !_vm.modal
                               ? _c("a", { attrs: { href: _vm.detalhe } }, [
                                   _vm._v("Detalhe |")
                                 ])
@@ -46705,8 +46688,8 @@ var render = function() {
                               ? _c("modallink", {
                                   attrs: {
                                     tipo: "link",
-                                    url: _vm.editar,
                                     item: item,
+                                    url: _vm.editar,
                                     nome: "editar",
                                     titulo: " Editar |",
                                     css: ""
@@ -46728,7 +46711,7 @@ var render = function() {
                       ? _c(
                           "span",
                           [
-                            _vm.detalhe
+                            _vm.detalhe && !_vm.modal
                               ? _c("a", { attrs: { href: _vm.detalhe } }, [
                                   _vm._v("Detalhe |")
                                 ])
@@ -46738,6 +46721,7 @@ var render = function() {
                               ? _c("modallink", {
                                   attrs: {
                                     item: item,
+                                    url: _vm.detalhe,
                                     tipo: "link",
                                     nome: "detalhe",
                                     titulo: " Detalhe |",
@@ -46755,9 +46739,9 @@ var render = function() {
                             _vm.editar && _vm.modal
                               ? _c("modallink", {
                                   attrs: {
-                                    url: _vm.editar,
                                     tipo: "link",
                                     item: item,
+                                    url: _vm.editar,
                                     nome: "editar",
                                     titulo: " Editar",
                                     css: ""

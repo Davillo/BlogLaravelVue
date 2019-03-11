@@ -1,20 +1,18 @@
 <template>
-<div>
-  
-     <div class="form-inline">
-       
-        <a v-if="criar && !modal" v-bind:href="criar">Criar</a>
+  <div>
 
-        <modallink v-if="criar && modal" tipo="button" nome="adicionar" titulo="Criar" css=""></modallink>
-         
-         <div class="form-group pull-right"> 
-             <input type="search" placeholder="Buscar" class="form-control" v-model="buscar">
-         </div>
-     </div>
-      <table class="table table-striped table-hover">
+    <div class="form-inline">
+      <a v-if="criar && !modal" v-bind:href="criar">Criar</a>
+      <modallink v-if="criar && modal" tipo="link" nome="adicionar" titulo="Criar" css=""></modallink>
+      <div class="form-group pull-right">
+        <input type="search" class="form-control" placeholder="Buscar" v-model="buscar" >
+      </div>
+    </div>
+
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th style="cursor:pointer" v-on:click="ordenarColuna(index)" v-for="(titulo,index) in titulos">{{titulo}}</th>
+          <th style="cursor:pointer" v-on:click="ordenaColuna(index)" v-for="(titulo,index) in titulos">{{titulo}}</th>
 
           <th v-if="detalhe || editar || deletar">Ação</th>
         </tr>
@@ -30,31 +28,28 @@
 
               <a v-if="detalhe && !modal" v-bind:href="detalhe">Detalhe |</a>
               <modallink v-if="detalhe && modal" v-bind:item="item" v-bind:url="detalhe" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
-              
-              
+
+
               <a v-if="editar && !modal" v-bind:href="editar"> Editar |</a>
               <modallink v-if="editar && modal" v-bind:item="item" v-bind:url="editar" tipo="link" nome="editar" titulo=" Editar |" css=""></modallink>
 
-              <a href="#" v-on:click="executarForm(index)"> Deletar</a>
+              <a href="#" v-on:click="executaForm(index)"> Deletar</a>
 
             </form>
             <span v-if="!token">
-              <a v-if="detalhe" v-bind:href="detalhe">Detalhe |</a>
+              <a v-if="detalhe && !modal" v-bind:href="detalhe">Detalhe |</a>
               <modallink v-if="detalhe && modal" v-bind:item="item" v-bind:url="detalhe" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
-            
+
               <a v-if="editar && !modal" v-bind:href="editar"> Editar |</a>
-              <modallink v-if="editar && modal" tipo="link" v-bind:url="editar" v-bind:item="item" nome="editar" titulo=" Editar |" css=""></modallink>
-             
+              <modallink v-if="editar && modal" tipo="link" v-bind:item="item" v-bind:url="editar" nome="editar" titulo=" Editar |" css=""></modallink>
               <a v-if="deletar" v-bind:href="deletar"> Deletar</a>
             </span>
-
-
             <span v-if="token && !deletar">
-              <a v-if="detalhe" v-bind:href="detalhe">Detalhe |</a>
-              <modallink v-if="detalhe && modal" v-bind:item="item" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
-              
+              <a v-if="detalhe && !modal" v-bind:href="detalhe">Detalhe |</a>
+              <modallink v-if="detalhe && modal" v-bind:item="item" v-bind:url="detalhe" tipo="link" nome="detalhe" titulo=" Detalhe |" css=""></modallink>
+
               <a v-if="editar && !modal" v-bind:href="editar"> Editar</a>
-              <modallink v-if="editar && modal" v-bind:url="editar" tipo="link" v-bind:item="item" nome="editar" titulo=" Editar" css=""></modallink>
+              <modallink v-if="editar && modal" tipo="link" v-bind:item="item" v-bind:url="editar" nome="editar" titulo=" Editar" css=""></modallink>
             </span>
 
 
@@ -65,33 +60,35 @@
       </tbody>
 
     </table>
-</div>
+
+  </div>
+
 </template>
 
 <script>
     export default {
-      props: ['titulos','itens','ordem','ordemcol','criar','detalhe','editar','deletar','token','modal'],
-      data: function (){
-          return {
-              buscar : '',
-              ordemAux: this.ordem || 'asc',
-              ordemAuxCol: this.ordemcol ||  0
-          }
+      props:['titulos','itens','ordem','ordemcol','criar','detalhe','editar','deletar','token','modal'],
+      data: function(){
+        return {
+          buscar:'',
+          ordemAux: this.ordem || "asc",
+          ordemAuxCol: this.ordemcol || 0
+        }
       },
       methods:{
-            executarForm: function (index){
-                document.getElementById(index).submit();
-            },
-            ordenarColuna : function(coluna){
-                this.ordemAuxCol = coluna;
-                if(this.ordemAux.toLowerCase() == "asc"){
-                    this.ordemAux = 'desc';
-                }else{
-                    this.ordemAux = 'asc';
-                }
-            }
+        executaForm: function(index){
+          document.getElementById(index).submit();
         },
-       computed:{
+        ordenaColuna: function(coluna){
+          this.ordemAuxCol = coluna;
+          if(this.ordemAux.toLowerCase() == "asc"){
+            this.ordemAux = 'desc';
+          }else{
+            this.ordemAux = 'asc';
+          }
+        }
+      },
+      computed:{
         lista:function(){
           let lista = this.itens.data;
           let ordem = this.ordemAux;
@@ -115,33 +112,20 @@
 
           if(this.buscar){
             return lista.filter(res => {
-            res = Object.values(res);
-              /*
-                for(let k = 0;k < res.length; k++){
-                  if((res[k] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
-                    return true;
-                  }
-                }*/
-                  if((res[0] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
-                    return true;
-                  }
+              res = Object.values(res);
+              for(let k = 0;k < res.length; k++){
+                if((res[k] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
+                  return true;
+                }
+              }
+              return false;
 
-                  if((res[1] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
-                    return true;
-                  }
-
-                   if((res[2] + "").toLowerCase().indexOf(this.buscar.toLowerCase()) >= 0){
-                    return true;
-                  }
-
-                return false;
             });
-          }else{
-            return lista;
           }
- 
-        }
-    }
 
- }
+
+          return lista;
+        }
+      }
+    }
 </script>

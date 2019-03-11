@@ -30,6 +30,7 @@ class HomeController extends Controller
         ]);
         $numArtigos = Artigo::count();
         $numUsers = User::count();
-        return view('home',compact('listaMigalhas','numArtigos','numUsers'));
+        $numAutores = User::where('autor', '=','S')->count();
+        return view('home',compact('listaMigalhas','numArtigos','numUsers','numAutores'));
     }
 }

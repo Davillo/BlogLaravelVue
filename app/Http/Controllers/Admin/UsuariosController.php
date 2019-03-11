@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Validation\Rule;
 
 class UsuariosController extends Controller{
   
@@ -58,6 +59,7 @@ class UsuariosController extends Controller{
     public function update(Request $request, $id){
         $data = $request->all();
 
+        
         if(isset($data['password']) && $data['password'] != ""){
           $validacao = \Validator::make($data,[
             'name' => 'required|string|max:255',

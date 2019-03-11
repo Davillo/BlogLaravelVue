@@ -32,6 +32,14 @@
     </div>
 
     <div class="form-group">
+        <label for="autor"> Autor </label>
+        <select id="autor" name="autor" class="form-control"  value="{{old('autor')}}">
+            <option {{( old('autor') && old('autor') == 'N' ? 'selected' : '' ) }} value="N">Não</option>
+            <option {{( old('autor') && old('autor') == 'S' ? 'selected' : ''  )  }} value="S">Sim</option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <label for="password"> Senha </label>
         <input type="password" class="form-control" value="{{old('password')}}" id="password" name="password" />
     </div>
@@ -54,6 +62,14 @@
     <div class="form-group">
         <label for="email"> E-mail </label>
         <input type="email" class="form-control" id="email" name="email" v-model="$store.state.item.email" placeholder="E-mail" />
+    </div>
+
+    <div class="form-group">
+        <label for="autor"> Autor </label>
+        <select id="autor" name="autor" class="form-control"  v-model="$store.state.item.autor">
+            <option value="N">Não</option>
+            <option value="S">Sim</option>
+        </select>
     </div>
 
     <div class="form-group">
