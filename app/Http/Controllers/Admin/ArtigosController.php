@@ -11,11 +11,14 @@ class ArtigosController extends Controller
    
     public function index(){
         $listaMigalhas = json_encode([
-            ['titulo' => "Home","url" => route('home')],
+            ['titulo' => "Admin","url" => route('admin')],
             ['titulo' => "Lista de Artigos","url"=>'']
         ]);
         
-        $listaArtigos = (Artigo::select('id','titulo','descricao','data')->paginate(5));
+        $listaArtigos = (Artigo::select('id','titulo','descricao','user_id','data')->paginate(5));
+        foreach ($listaArtigos as $key => $value) {
+          $value->user_id = \App\User::find($value->user_id)->name;
+        }
         return view('admin.artigos.index',compact('listaMigalhas','listaArtigos'));
     }
 

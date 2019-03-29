@@ -6,7 +6,7 @@
     <painel titulo="Lista de artigos">
         <migalhas v-bind:lista="{{$listaMigalhas}}"></migalhas>
         <tabela-lista 
-        v-bind:titulos="['#','Título','Descrição','Data']"
+        v-bind:titulos="['#','Título','Descrição','id_autor','Data']"
         v-bind:itens="{{json_encode($listaArtigos)}}"
         criar="#criar" detalhe="/admin/artigos/" editar="/admin/artigos/" deletar="/admin/artigos/" token="{{ csrf_token() }}"
         ordem="desc" ordemcol="1" modal="sim"
@@ -38,7 +38,7 @@
 
     <div class="form-group">
         <label for="data"> Data </label>
-        <input type="datetime-local" class="form-control" value="{{old('data')}}" id="data" name="data" />
+        <input type="date" class="form-control" value="{{old('data')}}" id="data" name="data" />
     </div>
    </formulario> 
 
@@ -68,7 +68,7 @@
 
     <div class="form-group">
         <label for="data"> Data </label>
-        <input type="datetime-local" class="form-control" v-model="$store.state.item.data" id="data" name="data" />
+        <input type="date" class="form-control" v-model="$store.state.item.data" id="data" name="data" />
     </div>
   </formulario>
 

@@ -5,7 +5,6 @@
 
 <painel titulo="Dashboard">
 <migalhas v-bind:lista="{{$listaMigalhas}}"></migalhas>
-    Teste de conteúdo 
     <div class="row">
         <div class="col-md-4">
         
